@@ -1,29 +1,47 @@
 defmodule Tracker.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
-  @moduledoc false
-
   use Application
 
   def start(_type, _args) do
-    # List all child processes to be supervised
+    import Supervisor.Spec
+
     children = [
-      # Start the endpoint when the application starts
-      TrackerWeb.Endpoint
-      # Starts a worker by calling: Tracker.Worker.start_link(arg)
-      # {Tracker.Worker, arg},
+      TrackerWeb.Endpoint,
+      supervisor(KafkaEx.ConsumerGroup, position_consumer_group(),
+        id: Tracker.PositionConsumerGroup
+      ),
+      supervisor(KafkaEx.ConsumerGroup, click_consumer_group(), id: Tracker.ClickConsumerGroup)
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Tracker.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
   def config_change(changed, _new, removed) do
     TrackerWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp position_consumer_group do
+    [
+      Tracker.PositionConsumerGroup,
+      "tracker-position",
+      ["position"],
+      [
+        heartbeat_interval: 1_000,
+        commit_interval: 1_000
+      ]
+    ]
+  end
+
+  defp click_consumer_group do
+    [
+      Tracker.ClickConsumerGroup,
+      "tracker-click",
+      ["click"],
+      [
+        heartbeat_interval: 1_000,
+        commit_interval: 1_000
+      ]
+    ]
   end
 end

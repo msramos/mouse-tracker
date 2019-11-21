@@ -24,6 +24,7 @@ config :phoenix, :json_library, Jason
 
 # Configure Kafka connection
 config :kafka_ex,
+  consumer_group: "tracker",
   brokers: [{"localhost", 9092}],
   kafka_version: "0.10.1"
 
