@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.content {
+  width: 500px;
+}
+
+.center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.title {
+  height: 50px;
+  font-size: 18pt;
+  text-align: center;
+}
+
+.square {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 500px;
+}
+
+.bg-doge-1 {
+  background-image: url('/images/doge1.png');
+}

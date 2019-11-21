@@ -1,0 +1,16 @@
+
+<div class="content">
+  <div class="title">Passe o mouse sobre a imagem</div>
+  <div id="tracked-square" class="square bg-doge-1"></div>
+  <div id="mouse-position"></div>
+</div>
+
+<div class="content">
+  <div class="title">Heatpmap</div>
+  <canvas id="heatmap-canvas" class="square" width="500" height="500">
+    <img src="/images/doge2.png">
+  </canvas>
+  <div class="center">
+    <button id="clear-content">Clear</button>
+  <div>
+</div>
